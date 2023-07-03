@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uasku/ui/BonusPage.dart';
+import 'package:uasku/ui/SignUpPage.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController(text: '');
+  final TextEditingController passwordController =
+      TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +32,7 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 250 ,
+            bottom: 100,
             left: 100,
             right: 100,
             child: Column(
@@ -35,6 +45,8 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       border: InputBorder.none,
@@ -49,6 +61,7 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       border: InputBorder.none,
@@ -58,15 +71,22 @@ class LoginPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const BonusPage(),
-                      ),
-                    );
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: emailController.text,
+                            password: passwordController.text)
+                        .then((value) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BonusPage())))
+                        .onError(
+                          (error, stackTrace) =>
+                              print("Error ${error.toString()}"),
+                        );
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 48, vertical: 14),
                     decoration: BoxDecoration(
                       color: const Color(0xffFFFFFF),
                       borderRadius: BorderRadius.circular(17),
@@ -82,6 +102,28 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignUpPage()));
+            },
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
+                child: Text(
+                  'Create new account',
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    color: const Color(0xff0D2841),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ),
         ],

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uasku/ui/LoginPage.dart';
 import 'package:uasku/widgets/custom_button.dart';
 import 'package:uasku/widgets/custom_navigation_item.dart';
 
@@ -250,7 +252,13 @@ class Profil extends StatelessWidget {
                         height: 39,
                         widht: 200,
                         onPrassed: () {
-                          Navigator.pushNamed(context, '/sign-up');
+                          FirebaseAuth.instance.signOut().then((value) {
+                            print("Signed Out");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
+                          });
                         }))
               ],
             ),
