@@ -143,15 +143,28 @@ class _MainPageState extends State<MainPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomBottonNavigationItem(
-                imageUrl: 'assets/icon_home.png',
-                isSelected: true,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/main");
+                },
+                child: CustomBottonNavigationItem(
+                  imageUrl: 'assets/icon_home.png',
+                  isSelected: true,
+                ),
               ),
-              CustomBottonNavigationItem(
-                imageUrl: 'assets/icon_riwayat.png',
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/riwayat_pembelian");
+                },
+                child: CustomBottonNavigationItem(
+                  imageUrl: 'assets/icon_riwayat.png',
+                ),
               ),
-              CustomBottonNavigationItem(
-                imageUrl: 'assets/icon_pemesanan.png',
+              GestureDetector(
+                onTap: () {},
+                child: CustomBottonNavigationItem(
+                  imageUrl: 'assets/icon_pemesanan.png',
+                ),
               ),
               GestureDetector(
                 onTap: () {

@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uasku/shared/theme.dart';
 import 'package:uasku/ui/LoginPage.dart';
-import 'package:uasku/ui/MainPage.dart';
+
 import 'package:uasku/widgets/custom_textField.dart';
 import 'package:uasku/widgets/forms.dart';
 
@@ -17,8 +19,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final TextEditingController _passwordTextController = TextEditingController();
+ final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +65,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 CustomTextFormField(
                   label: "Email Address",
                   keyboardType: TextInputType.emailAddress,
-                  controller: _emailTextController,
+                                    controller: _emailTextController,
+
                 ),
                 const SizedBox(
                   height: 16,
@@ -77,8 +82,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 // ),
                 CustomTextFormField(
                   label: "Password",
-                  controller: _passwordTextController,
                   isObscure: true,
+                                    controller: _passwordTextController,
+
                 ),
                 const SizedBox(
                   height: 10,
@@ -104,8 +110,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 30,
                 ),
                 CustomFilledButton(
-                    title: "Sign Up",
-                    onPressed: () {
+                  title: "Sign Up",
+                   onPressed: () {
                       FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
                               // email: "alvitoadty@gmail.com",
@@ -121,7 +127,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       }).onError((error, stackTrace) {
                         print("Error ${error.toString()}");
                       });
-                    }),
+                    }
+                ),
               ],
             ),
           ),
@@ -130,3 +137,4 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
+

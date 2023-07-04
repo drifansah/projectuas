@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,9 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController(text: '');
-  final TextEditingController passwordController =
-      TextEditingController(text: '');
+  final controllerEmail = TextEditingController();
+  final controllerPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
+                    controller: controllerEmail,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       border: InputBorder.none,
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
-                    controller: passwordController,
+                    controller: controllerPassword,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       border: InputBorder.none,
@@ -73,16 +73,14 @@ class _LoginPageState extends State<LoginPage> {
                   onTap: () {
                     FirebaseAuth.instance
                         .signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text)
-                        .then((value) => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BonusPage())))
-                        .onError(
-                          (error, stackTrace) =>
-                              print("Error ${error.toString()}"),
-                        );
+                            email: controllerEmail.text,
+                            password: controllerPassword.text)
+                        .then((value) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => BonusPage()));
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
